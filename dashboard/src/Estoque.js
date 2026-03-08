@@ -17,6 +17,20 @@ const [vendidos,setVendidos] = useState([])
 const [busca,setBusca] = useState("")
 const [aba,setAba] = useState("dashboard")
 
+/* BLOQUEAR LETRAS NO IMEI */
+
+const handleImei = (valor) => {
+
+const numeros = valor.replace(/\D/g,"")
+
+if(numeros.length <= 15){
+setImei(numeros)
+}
+
+}
+
+/* CARREGAR ESTOQUE */
+
 const carregarEstoque = async () => {
 
 const resposta = await axios.get("https://mr-imports-api.onrender.com/estoque")
@@ -38,7 +52,16 @@ carregarVendidos()
 
 },[])
 
+/* SALVAR IPHONE */
+
 const salvar = async () => {
+
+if(imei.length !== 15){
+
+alert("IMEI precisa ter 15 números")
+return
+
+}
 
 await axios.post("https://mr-imports-api.onrender.com/iphone",{
 
@@ -53,9 +76,20 @@ venda:Number(venda)
 })
 
 alert("iPhone cadastrado")
+
+setModelo("")
+setImei("")
+setCor("")
+setCapacidade("")
+setFornecedor("")
+setCompra("")
+setVenda("")
+
 carregarEstoque()
 
 }
+
+/* VENDER */
 
 const vender = async (id) => {
 
@@ -65,6 +99,40 @@ alert("Venda realizada")
 
 carregarEstoque()
 carregarVendidos()
+
+}
+
+/* APAGAR */
+
+const apagar = async (id) => {
+
+if(!window.confirm("Deseja apagar este aparelho?")) return
+
+await axios.delete("https://mr-imports-api.onrender.com/iphone/"+id)
+
+alert("Aparelho removido")
+
+carregarEstoque()
+
+}
+
+/* EDITAR */
+
+const editar = async (item) => {
+
+const novoModelo = prompt("Novo modelo:",item.modelo)
+
+if(!novoModelo) return
+
+await axios.put("https://mr-imports-api.onrender.com/iphone/"+item._id,{
+
+modelo:novoModelo
+
+})
+
+alert("Atualizado")
+
+carregarEstoque()
 
 }
 
@@ -142,25 +210,25 @@ padding:"10px"
 
 <h2>Cadastro</h2>
 
-<input placeholder="Modelo" onChange={e=>setModelo(e.target.value)}/>
+<input placeholder="Modelo" value={modelo} onChange={e=>setModelo(e.target.value)}/>
 <br/><br/>
 
-<input placeholder="IMEI" onChange={e=>setImei(e.target.value)}/>
+<input placeholder="IMEI (15 números)" value={imei} onChange={e=>handleImei(e.target.value)}/>
 <br/><br/>
 
-<input placeholder="Cor" onChange={e=>setCor(e.target.value)}/>
+<input placeholder="Cor" value={cor} onChange={e=>setCor(e.target.value)}/>
 <br/><br/>
 
-<input placeholder="Capacidade" onChange={e=>setCapacidade(e.target.value)}/>
+<input placeholder="Capacidade" value={capacidade} onChange={e=>setCapacidade(e.target.value)}/>
 <br/><br/>
 
-<input placeholder="Fornecedor" onChange={e=>setFornecedor(e.target.value)}/>
+<input placeholder="Fornecedor" value={fornecedor} onChange={e=>setFornecedor(e.target.value)}/>
 <br/><br/>
 
-<input placeholder="Preço compra" onChange={e=>setCompra(e.target.value)}/>
+<input placeholder="Preço compra" value={compra} onChange={e=>setCompra(e.target.value)}/>
 <br/><br/>
 
-<input placeholder="Preço venda" onChange={e=>setVenda(e.target.value)}/>
+<input placeholder="Preço venda" value={venda} onChange={e=>setVenda(e.target.value)}/>
 <br/><br/>
 
 <button onClick={salvar}>Salvar</button>
@@ -186,6 +254,7 @@ padding:"10px"
 <th>Fornecedor</th>
 <th>Compra</th>
 <th>Venda</th>
+<th>Ações</th>
 </tr>
 </thead>
 
@@ -199,6 +268,15 @@ padding:"10px"
 <td>{item.fornecedor}</td>
 <td>{item.compra}</td>
 <td>{item.venda}</td>
+
+<td>
+
+<button onClick={()=>editar(item)}>Editar</button>
+
+<button onClick={()=>apagar(item._id)}>Excluir</button>
+
+</td>
+
 </tr>
 
 ))}
