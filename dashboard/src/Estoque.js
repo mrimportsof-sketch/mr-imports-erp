@@ -142,29 +142,7 @@ carregarEstoque()
 
 return(
 
-<div style={{display:"flex"}}>
-
-{/* MENU */}
-
-<div style={{
-width:"150px",
-height:"50vh",
-background:"#111",
-color:"#fff",
-padding:"10px"
-}}>
-
-<h2>DASHBOARD</h2>
-
-<hr/>
-
-<p className="menuItem" onClick={()=>setAba("dashboard")}>Dashboard</p>
-<p className="menuItem" onClick={()=>setAba("cadastro")}>Cadastro</p>
-<p className="menuItem" onClick={()=>setAba("estoque")}>Estoque</p>
-<p className="menuItem" onClick={()=>setAba("vendas")}>Vendas</p>
-<p className="menuItem" onClick={()=>setAba("relatorio")}>Relatórios</p>
-
-</div>
+<div style={{padding:"30px"}}>
 
 {/* AREA PRINCIPAL */}
 
