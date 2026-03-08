@@ -1,11 +1,11 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 import Estoque from "./Estoque";
 import Assistencia from "./Assistencia";
 import Fornecedores from "./Fornecedores";
-
-
+import "./App.css";
+import logo from "./assets/logo.png";
 
 function App() {
   return (
@@ -22,17 +22,27 @@ function App() {
           padding:"20px"
         }}>
 
-          
+          <img 
+            src={logo} 
+            alt="MR Imports"
+            style={{width:"160px", marginBottom:"20px"}}
+          />
 
           <hr/>
 
-          <p>Dashboard</p>
-          <p>Estoque</p>
-          <p>Vendas</p>
-          <p>Assistência</p>
-          <p>Fornecedores</p>
-          <p>Relatórios</p>
-          <p>Configurações</p>
+          <Link className="menuItem" to="/">Dashboard</Link>
+
+          <Link className="menuItem" to="/">Estoque</Link>
+
+          <Link className="menuItem" to="/">Vendas</Link>
+
+          <Link className="menuItem" to="/assistencia">Assistência</Link>
+
+          <Link className="menuItem" to="/fornecedores">Fornecedores</Link>
+
+          <p className="menuItem">Relatórios</p>
+
+          <p className="menuItem">Configurações</p>
 
         </div>
 
