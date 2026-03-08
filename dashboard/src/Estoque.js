@@ -19,14 +19,14 @@ const [aba,setAba] = useState("dashboard")
 
 const carregarEstoque = async () => {
 
-const resposta = await axios.get("http://localhost:3001/estoque")
+const resposta = await axios.get("https://mr-imports-api.onrender.com/estoque")
 setEstoque(resposta.data)
 
 }
 
 const carregarVendidos = async () => {
 
-const resposta = await axios.get("http://localhost:3001/vendidos")
+const resposta = await axios.get("https://mr-imports-api.onrender.com/vendidos")
 setVendidos(resposta.data)
 
 }
@@ -40,7 +40,7 @@ carregarVendidos()
 
 const salvar = async () => {
 
-await axios.post("http://localhost:3001/iphone",{
+await axios.post("https://mr-imports-api.onrender.com/iphone",{
 
 modelo,
 imei,
@@ -59,7 +59,7 @@ carregarEstoque()
 
 const vender = async (id) => {
 
-await axios.put("http://localhost:3001/vender/"+id)
+await axios.put("https://mr-imports-api.onrender.com/vender/"+id)
 
 alert("Venda realizada")
 
