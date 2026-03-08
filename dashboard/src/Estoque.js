@@ -17,6 +17,8 @@ const [vendidos,setVendidos] = useState([])
 const [busca,setBusca] = useState("")
 const [aba,setAba] = useState("dashboard")
 
+const [editando,setEditando] = useState(null)
+
 /* BLOQUEAR LETRAS NO IMEI */
 
 const handleImei = (valor) => {
@@ -116,21 +118,23 @@ carregarEstoque()
 
 }
 
-/* EDITAR */
+/* ABRIR EDIÇÃO */
 
-const editar = async (item) => {
+const editar = (item) => {
 
-const novoModelo = prompt("Novo modelo:",item.modelo)
+setEditando({...item})
 
-if(!novoModelo) return
+}
 
-await axios.put("https://mr-imports-api.onrender.com/iphone/"+item._id,{
+/* SALVAR EDIÇÃO */
 
-modelo:novoModelo
+const salvarEdicao = async () => {
 
-})
+await axios.put("https://mr-imports-api.onrender.com/iphone/"+editando._id,editando)
 
-alert("Atualizado")
+alert("Aparelho atualizado")
+
+setEditando(null)
 
 carregarEstoque()
 
@@ -140,7 +144,7 @@ return(
 
 <div style={{display:"flex"}}>
 
-{/* MENU LATERAL */}
+{/* MENU */}
 
 <div style={{
 width:"150px",
@@ -162,7 +166,7 @@ padding:"10px"
 
 </div>
 
-{/* ÁREA PRINCIPAL */}
+{/* AREA PRINCIPAL */}
 
 <div style={{flex:1,padding:"30px"}}>
 
@@ -188,12 +192,12 @@ padding:"10px"
 
 <div style={{background:"#eee",padding:"20px",width:"200px"}}>
 <h3>Faturamento total</h3>
-<p>R$ {vendidos.reduce((total,item)=> total + item.venda ,0)}</p>
+<p>R$ {vendidos.reduce((t,i)=>t+i.venda,0)}</p>
 </div>
 
 <div style={{background:"#eee",padding:"20px",width:"200px"}}>
 <h3>Lucro total</h3>
-<p>R$ {vendidos.reduce((total,item)=> total + (item.venda - item.compra) ,0)}</p>
+<p>R$ {vendidos.reduce((t,i)=>t+(i.venda-i.compra),0)}</p>
 </div>
 
 </div>
@@ -244,6 +248,57 @@ padding:"10px"
 <div>
 
 <h2>Estoque</h2>
+
+{/* FORMULARIO DE EDIÇÃO */}
+
+{editando && (
+
+<div style={{border:"2px solid #000",padding:"20px",marginBottom:"20px"}}>
+
+<h3>Editar aparelho</h3>
+
+<input value={editando.modelo}
+onChange={e=>setEditando({...editando,modelo:e.target.value})}/>
+
+<br/><br/>
+
+<input value={editando.imei}
+onChange={e=>setEditando({...editando,imei:e.target.value})}/>
+
+<br/><br/>
+
+<input value={editando.cor}
+onChange={e=>setEditando({...editando,cor:e.target.value})}/>
+
+<br/><br/>
+
+<input value={editando.capacidade}
+onChange={e=>setEditando({...editando,capacidade:e.target.value})}/>
+
+<br/><br/>
+
+<input value={editando.fornecedor}
+onChange={e=>setEditando({...editando,fornecedor:e.target.value})}/>
+
+<br/><br/>
+
+<input value={editando.compra}
+onChange={e=>setEditando({...editando,compra:e.target.value})}/>
+
+<br/><br/>
+
+<input value={editando.venda}
+onChange={e=>setEditando({...editando,venda:e.target.value})}/>
+
+<br/><br/>
+
+<button onClick={salvarEdicao}>Salvar</button>
+
+<button onClick={()=>setEditando(null)}>Cancelar</button>
+
+</div>
+
+)}
 
 <table border="1">
 
