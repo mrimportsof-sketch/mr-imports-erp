@@ -35,4 +35,18 @@
   to {
     transform: rotate(360deg);
   }
+
+
+}
+
+.menuItem{
+padding:10px;
+cursor:pointer;
+border-radius:6px;
+transition:0.2s;
+}
+
+.menuItem:hover{
+background:#5f5e5e;
+transform:scale(1.05);
 }

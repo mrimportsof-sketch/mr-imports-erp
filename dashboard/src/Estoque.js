@@ -158,11 +158,11 @@ padding:"10px"
 
 <hr/>
 
-<p onClick={()=>setAba("dashboard")}>Dashboard</p>
-<p onClick={()=>setAba("cadastro")}>Cadastro</p>
-<p onClick={()=>setAba("estoque")}>Estoque</p>
-<p onClick={()=>setAba("vendas")}>Vendas</p>
-<p onClick={()=>setAba("relatorio")}>Relatórios</p>
+<p className="menuItem" onClick={()=>setAba("dashboard")}>Dashboard</p>
+<p className="menuItem" onClick={()=>setAba("cadastro")}>Cadastro</p>
+<p className="menuItem" onClick={()=>setAba("estoque")}>Estoque</p>
+<p className="menuItem" onClick={()=>setAba("vendas")}>Vendas</p>
+<p className="menuItem" onClick={()=>setAba("relatorio")}>Relatórios</p>
 
 </div>
 
