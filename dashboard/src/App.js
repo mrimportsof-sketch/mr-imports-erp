@@ -56,7 +56,7 @@ function App() {
             <Route path="/assistencia" element={<Assistencia />} />
 
             <Route path="/fornecedores" element={<Fornecedores />} />
-
+console.log("teste deploy");
           </Routes>
 
         </div>
